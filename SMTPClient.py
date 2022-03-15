@@ -1,3 +1,4 @@
+import base64
 import ssl
 from socket import *
 
@@ -33,6 +34,10 @@ def send_mail(mail_from, mail_to, body, has_attachment=False):
 
 # TODO implement
 def send_secure_mail(user_name, password, has_attachment=False):
+    # Converter user name and password to base64
+    user_name = base64_string_converter(user_name)
+    password = base64_string_converter(password)
+
     # Array's with protocol responses and answers
     smtp_client_responses = ["EHLO mail.example.com\r\n",
                              "STARTTLS\r\n",
@@ -66,6 +71,13 @@ def create_socket(server, port):
     print(recv)
 
     return client_socket
+
+
+def base64_string_converter(string):
+    string_in_bytes = string.encode('utf-8')
+    string_in_base64 = base64.b64encode(string_in_bytes)
+    result_as_string = string_in_base64.decode('utf-8')
+    return result_as_string
 
 
 if __name__ == '__main__':
