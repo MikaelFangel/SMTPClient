@@ -1,11 +1,10 @@
-#for no echo when writing password
+# for no echo when writing password
 from getpass import getpass
-from time import sleep
 import SMTPClient
 
 
 # Choice for sending the mail
-def doneWriting():
+def done_writing():
     done = input("Ready to send?  Y/N   ")
     yes = {"Y", "y", "YES", "yes"}
     no = {"N", "n", "NO", "no"}
@@ -14,17 +13,15 @@ def doneWriting():
     elif done in no:
         return False
     else:
-        doneWriting()
+        done_writing()
 
 
 # Mail client for writing email
-def writeMail(username, passWord, attachmentPath=''):
+def write_mail(username, password, attachment_path=''):
     # Head
     print("\n")
-    Msg = "Write mail".center(30) + "\n"
-    print(Msg)
-
-    attachmentPath = 'image.png' # Remove later
+    msg = "Write mail".center(30) + "\n"
+    print(msg)
 
     # Add content
     sender = input("Sender:\n        ")
@@ -32,60 +29,60 @@ def writeMail(username, passWord, attachmentPath=''):
     subject = input("\nSubject:\n        ")
     body = input("\nBody:\n        ")
 
-    emailbody = f'FROM:{sender}\n' \
-                f'TO:{receiver}\n' \
-                f'Subject:{subject}\n' \
+    email_body = f'FROM:{sender}\n' \
+                 f'TO:{receiver}\n' \
+                 f'Subject:{subject}\n'
 
-    if attachmentPath != '':
-        emailbody = emailbody + f'{SMTPClient.createImageAttachment(body, attachmentPath)}\n'
+    if attachment_path != '':
+        email_body = email_body + f'{SMTPClient.create_image_attachment(body, attachment_path)}\n'
 
-    emailbody = emailbody + '\n' + SMTPClient.createMakeBodyMailable(body)
+    email_body = email_body + '\n' + SMTPClient.create_make_body_mailable(body)
 
-    if doneWriting():
-        if username is None or passWord is None:
-            SMTPClient.send_mail(sender, receiver, emailbody)
+    if done_writing():
+        if username is None or password is None:
+            SMTPClient.send_mail(sender, receiver, email_body)
         else:
-            SMTPClient.send_secure_mail(username, passWord, sender, receiver, emailbody)
+            SMTPClient.send_secure_mail(username, password, sender, receiver, email_body)
 
-        print("It worked!") #send_mail(sender, receiver, body, has_attachment=False) + username + passWord
+        print("It worked!")  # send_mail(sender, receiver, body, has_attachment=False) + username + passWord
     else:
-        writeMail(username, passWord)
-        
-        
+        write_mail(username, password)
+
+
 # Login page for mail client
-def loginPage():
+def login_page():
     # Head of login page
     print("\n")
-    loginMsg = "Client login\n".center(30)
-    print(loginMsg)
-    
-    userName = input("Input username:\n                ")
-    
+    login_msg = "Client login\n".center(30)
+    print(login_msg)
+
+    user_name = input("Input username:\n                ")
+
     password = getpass("\nInput password:")
-    pwLength = len(password)
-    print("                " + "*"*pwLength) # Hidden password
-    
-    writeMail(userName, password) # check for valid usr + pwd?
+    pw_length = len(password)
+    print("                " + "*" * pw_length)  # Hidden password
+
+    write_mail(user_name, password)  # check for valid usr + pwd?
+
 
 # Initial page for secure option, else mail client
-def beginClient():
+def begin_client():
     print("")
     top = "Mail Client".center(30) + "\n"
     print(top)
-    
+
     print("Please choose between: \nSecure server: smtp.gmail.com with TLS\n or \nUnsecure server: dist.bhsi.xyz\n")
-    serverSecure = {"Secure", "SECURE", "secure", "sec", "s"}
-    serverUnsecure = {"unsecure", "Unsecure", "UNSECURE", "un", "u"}
-    serverChoice = input("Choose server [secure/unsecure]: ")
-    
-    if serverChoice in serverUnsecure:
-        writeMail(username=None, passWord=None)
-    if serverChoice in serverSecure:
-        loginPage()
+    server_secure = {"Secure", "SECURE", "secure", "sec", "s"}
+    server_unsecure = {"unsecure", "Unsecure", "UNSECURE", "un", "u"}
+    server_choice = input("Choose server [secure/unsecure]: ")
+
+    if server_choice in server_unsecure:
+        write_mail(username=None, password=None)
+    if server_choice in server_secure:
+        login_page()
     else:
-        beginClient()
+        begin_client()
 
 
 if __name__ == '__main__':
-    beginClient() ## Run
-
+    begin_client()
