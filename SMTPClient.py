@@ -29,7 +29,6 @@ def send_mail(mail_from, mail_to, body, has_attachment=False):
         if i == 4:
             client_socket.send(smtp_client_responses[i + 1].encode())
         recv = client_socket.recv(2048)
-        print(recv)
 
 
 # TODO implement
@@ -56,7 +55,6 @@ def send_secure_mail(user_name, password, mail_from, mail_to, body,  has_attachm
     for i in range(2):
         client_socket.send(smtp_client_responses[i].encode())
         recv = client_socket.recv(2048)
-        print(recv)
 
     # Upgrade connection to TLS
     ctx = ssl.create_default_context()
@@ -66,14 +64,12 @@ def send_secure_mail(user_name, password, mail_from, mail_to, body,  has_attachm
     for i in range(2, len(smtp_client_responses)):
         client_socket.send(smtp_client_responses[i].encode())
         recv = client_socket.recv(2048)
-        print(recv)
 
 
 def create_socket(server, port):
     client_socket = socket(AF_INET, SOCK_STREAM)
     client_socket.connect((server, port))
     recv = client_socket.recv(2048)
-    print(recv)
 
     return client_socket
 
