@@ -65,7 +65,6 @@ def loginPage():
     pwLength = len(password)
     print("                " + "*"*pwLength) # Hidden password
     
-    sleep(1) # Pause for effect
     writeMail(userName, password) # check for valid usr + pwd?
 
 # Initial page for secure option, else mail client
@@ -80,15 +79,12 @@ def beginClient():
     serverChoice = input("Choose server [secure/unsecure]: ")
     
     if serverChoice in serverUnsecure:
-        sleep(1)
         writeMail(username=None, passWord=None)
     if serverChoice in serverSecure:
-        sleep(1)
         loginPage()
     else:
         beginClient()
 
 
 if __name__ == '__main__':
-    #beginClient() ## Run
-    writeMail('test', '123', 'image.png')
+    beginClient() ## Run
