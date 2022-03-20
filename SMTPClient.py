@@ -85,9 +85,11 @@ def base64_string_converter(string):
     result_as_string = string_in_base64.decode('utf-8')
     return result_as_string
 
+def base64ToString(bytes):
+    return bytes.decode('utf-8')
 
 def createImageAttachment(imageName=''):
-    imageBase64 = base64_string_converter(imageToBase64(imageName))
+    imageBase64 = base64ToString(imageToBase64(imageName))
     msg = f'Content-Type: multipart/mixed; boundary="===============0814515963129319972=="\n' \
           f'MIME-Version: 1.0\n' \
           f'\n' \
