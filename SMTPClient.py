@@ -42,7 +42,12 @@ def send_secure_mail(user_name, password, has_attachment=False):
     smtp_client_responses = ["EHLO mail.example.com\r\n",
                              "STARTTLS\r\n",
                              "AUTH LOGIN\r\n",
-                             user_name + "\r\n", password + "\r\n"]
+                             user_name + "\r\n", password + "\r\n",
+                             "MAIL FROM: <" + mail_from + ">\r\n",
+                             "RCPT TO: <" + mail_to + ">\r\n",
+                             "DATA\r\n",
+                             f"{body}\r\n.\r\n",
+                             "QUIT\r\n"]
     smtp_server_responses = []
 
     client_socket = create_socket(secure_server, secure_port)
