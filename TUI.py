@@ -41,16 +41,17 @@ def writeMail(username, passWord):
 # Login page for mail client
 def loginPage():
     # Head of login page
-    loginMsg = ("\nClient login\n").center(30)
+    print("\n")
+    loginMsg = ("Client login\n").center(30)
     print(loginMsg)
     
     userName = input("Input username:\n                ")
     
     password = getpass("\nInput password:")
     pwLength = len(password)
-    print("                " + "*"*pwLength + "\n") # Hidden password
+    print("                " + "*"*pwLength) # Hidden password
     
-    sleep(1)
+    sleep(1) # Pause for effect
     writeMail(userName, password) # check for valid usr + pwd?
 
 # Initial page for secure option, else mail client
