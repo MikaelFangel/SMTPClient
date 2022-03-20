@@ -9,7 +9,7 @@ secure_server = "smtp.gmail.com"
 secure_port = 587
 
 
-def send_mail(mail_from, mail_to, body, has_attachment=False):
+def send_mail(mail_from, mail_to, body):
     # SMTP protocol message
     smtp_client_responses = ["EHLO mail.example.com\r\n",
                              "MAIL FROM: <" + mail_from + ">\r\n",
@@ -18,12 +18,10 @@ def send_mail(mail_from, mail_to, body, has_attachment=False):
                              f"{body}\r\n",
                              ".\r\n",
                              "QUIT\r\n"]
-    smtp_server_responses = []
 
     client_socket = create_socket(unsecure_server, unsecure_port)
 
     # Send mail
-    # TODO Remove the need for checking if i = 4
     for i in range(len(smtp_client_responses)):
         client_socket.send(smtp_client_responses[i].encode())
         if i == 4:
@@ -31,8 +29,7 @@ def send_mail(mail_from, mail_to, body, has_attachment=False):
         recv = client_socket.recv(2048)
 
 
-# TODO implement
-def send_secure_mail(user_name, password, mail_from, mail_to, body, has_attachment=False):
+def send_secure_mail(user_name, password, mail_from, mail_to, body):
     # Converter user name and password to base64
     user_name = base64_string_converter(user_name)
     password = base64_string_converter(password)
@@ -47,7 +44,6 @@ def send_secure_mail(user_name, password, mail_from, mail_to, body, has_attachme
                              "DATA\r\n",
                              f"{body}\r\n.\r\n",
                              "QUIT\r\n"]
-    smtp_server_responses = []
 
     client_socket = create_socket(secure_server, secure_port)
 
@@ -74,8 +70,8 @@ def create_socket(server, port):
     return client_socket
 
 
-def imageToBase64(imagePath):
-    with open(imagePath, "rb") as imgFile:
+def image_to_base64(image_path):
+    with open(image_path, "rb") as imgFile:
         return base64.b64encode(imgFile.read())
 
 
@@ -86,12 +82,12 @@ def base64_string_converter(string):
     return result_as_string
 
 
-def base64ToString(bytes):
-    return bytes.decode('utf-8')
+def base_64_to_string(bytes_to_conv):
+    return bytes_to_conv.decode('utf-8')
 
 
-def createImageAttachment(body='', imageName=''):
-    imageBase64 = base64ToString(imageToBase64(imageName))
+def create_image_attachment(body='', image_name=''):
+    image_base64 = base_64_to_string(image_to_base64(image_name))
     msg = f'Content-Type: multipart/mixed; boundary="===============0814515963129319972=="\n' \
           f'MIME-Version: 1.0\n'
 
@@ -104,14 +100,14 @@ def createImageAttachment(body='', imageName=''):
                 f'\n'
 
     # Image attachment
-    if imageName != '':
+    if image_name != '':
         msg = msg + '--===============0814515963129319972==\n' \
                     'Content-Type: image/octet_stream\n' \
                     'MIME-Version: 1.0\n' \
                     'Content-Transfer-Encoding: base64\n' \
-                    f'Content-Disposition: attachment; filename="{imageName}"\n' \
+                    f'Content-Disposition: attachment; filename="{image_name}"\n' \
                     '\n' \
-                    f'{imageBase64}==\n' \
+                    f'{image_base64}==\n' \
                     '\n' \
 
     # End of message
@@ -120,8 +116,8 @@ def createImageAttachment(body='', imageName=''):
     return msg
 
 
-def createMakeBodyMailable(body):
-    newBody = f'000000000000382db0057f0910d5"\n' \
+def create_make_body_mailable(body):
+    new_body = f'000000000000382db0057f0910d5"\n' \
               f'Content-Type: text/plain; charset="UTF-8"\n' \
               f'Content-Transfer-Encoding: quoted-printable\n' \
               f'\n' \
@@ -129,4 +125,4 @@ def createMakeBodyMailable(body):
               f'\n' \
               f'000000000000382db0057f0910d5'
 
-    return newBody
+    return new_body
