@@ -73,11 +73,34 @@ def create_socket(server, port):
     return client_socket
 
 
+def imageToBase64(imagePath):
+    with open(imagePath, "rb") as imgFile:
+        return base64.b64encode(imgFile.read())
+
+
 def base64_string_converter(string):
     string_in_bytes = string.encode('utf-8')
     string_in_base64 = base64.b64encode(string_in_bytes)
     result_as_string = string_in_base64.decode('utf-8')
     return result_as_string
+
+
+def createImageAttachment(imageName=''):
+    imageBase64 = base64_string_converter(imageToBase64(imageName))
+    msg = f'Content-Type: multipart/mixed; boundary="===============0814515963129319972=="\n' \
+          f'MIME-Version: 1.0\n' \
+          f'\n' \
+          f'--===============0814515963129319972==\n' \
+          f'Content-Type: image/octet_stream\n' \
+          f'MIME-Version: 1.0\n' \
+          f'Content-Transfer-Encoding: base64\n' \
+          f'Content-Disposition: attachment; filename="{imageName}"\n' \
+          '\n' \
+          f'{imageBase64}==\n' \
+          '\n' \
+          '--===============0814515963129319972==--' \
+
+    return msg
 
 
 if __name__ == '__main__':
