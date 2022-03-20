@@ -86,8 +86,8 @@ def base_64_to_string(bytes_to_conv):
     return bytes_to_conv.decode('utf-8')
 
 
-def create_image_attachment(body='', image_name=''):
-    image_base64 = base_64_to_string(image_to_base64(image_name))
+def create_image_attachment(body='', image_attachment=''):
+    image_base64 = base_64_to_string(image_to_base64(image_attachment))
     msg = f'Content-Type: multipart/mixed; boundary="===============0814515963129319972=="\n' \
           f'MIME-Version: 1.0\n'
 
@@ -100,12 +100,12 @@ def create_image_attachment(body='', image_name=''):
                 f'\n'
 
     # Image attachment
-    if image_name != '':
+    if image_attachment != '':
         msg = msg + '--===============0814515963129319972==\n' \
                     'Content-Type: image/octet_stream\n' \
                     'MIME-Version: 1.0\n' \
                     'Content-Transfer-Encoding: base64\n' \
-                    f'Content-Disposition: attachment; filename="{image_name}"\n' \
+                    f'Content-Disposition: attachment; filename="{image_attachment}"\n' \
                     '\n' \
                     f'{image_base64}==\n' \
                     '\n' \
