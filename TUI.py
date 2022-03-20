@@ -28,23 +28,25 @@ def write_mail(username, password, attachment_path=''):
     receiver = input("\nReceiver:\n        ")
     subject = input("\nSubject:\n        ")
     body = input("\nBody:\n        ")
+    image_attachment = input("\nImage Attachment (Path):\n        ")
 
     email_body = f'FROM:{sender}\n' \
                  f'TO:{receiver}\n' \
                  f'Subject:{subject}\n'
 
-    if attachment_path != '':
-        email_body = email_body + f'{SMTPClient.create_image_attachment(body, attachment_path)}\n'
+    if image_attachment != '':
+        email_body = email_body + f'{SMTPClient.create_image_attachment(body, image_attachment)}\n'
 
     email_body = email_body + '\n' + SMTPClient.create_make_body_mailable(body)
 
     if done_writing():
+        print("\nProcessing...")
         if username is None or password is None:
             SMTPClient.send_mail(sender, receiver, email_body)
         else:
             SMTPClient.send_secure_mail(username, password, sender, receiver, email_body)
 
-        print("It worked!")  # send_mail(sender, receiver, body, has_attachment=False) + username + passWord
+        print("\nMail is sent!")
     else:
         write_mail(username, password)
 
@@ -84,5 +86,6 @@ def begin_client():
         begin_client()
 
 
+# OBS If it does not work. use debug mode in PyCharm to run instead!!! OBS
 if __name__ == '__main__':
     begin_client()
