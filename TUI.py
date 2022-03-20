@@ -80,4 +80,6 @@ def beginClient():
     else:
         beginClient()
 
-beginClient() ## Run
+
+if __name__ == '__main__':
+    beginClient() ## Run

@@ -106,7 +106,3 @@ def createImageAttachment(imageName=''):
           '--===============0814515963129319972==--' \
 
     return msg
-
-
-if __name__ == '__main__':
-    pass
