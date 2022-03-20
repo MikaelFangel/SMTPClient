@@ -33,7 +33,7 @@ def send_mail(mail_from, mail_to, body, has_attachment=False):
 
 
 # TODO implement
-def send_secure_mail(user_name, password, has_attachment=False):
+def send_secure_mail(user_name, password, mail_from, mail_to, body,  has_attachment=False):
     # Converter user name and password to base64
     user_name = base64_string_converter(user_name)
     password = base64_string_converter(password)
