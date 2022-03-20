@@ -37,9 +37,9 @@ def writeMail(username, passWord, attachmentPath=''):
                 f'Subject:{subject}\n' \
 
     if attachmentPath != '':
-        emailbody = emailbody + f'{SMTPClient.createImageAttachment("image.png")}\n'
+        emailbody = emailbody + f'{SMTPClient.createImageAttachment(body, attachmentPath)}\n'
 
-    emailbody = emailbody + '\n' + body
+    emailbody = emailbody + '\n' + SMTPClient.createMakeBodyMailable(body)
 
     if doneWriting():
         if username is None or passWord is None:
@@ -90,5 +90,5 @@ def beginClient():
 
 
 if __name__ == '__main__':
-    #beginClient() ## Run
-    writeMail('test', '123', 'image.png')
+    beginClient() ## Run
+    #writeMail('test', '123', 'image.png')
