@@ -1,6 +1,7 @@
 #for no echo when writing password
 from getpass import getpass
 from time import sleep
+import SMTPClient
 
 
 # Choice for sending the mail
@@ -20,7 +21,7 @@ def doneWriting():
 def writeMail(username, passWord):
     # Head
     print("\n")
-    Msg = ("Write mail").center(30) + "\n"
+    Msg = "Write mail".center(30) + "\n"
     print(Msg)
     
     # Add content
@@ -32,7 +33,12 @@ def writeMail(username, passWord):
     attachment = "\nAdd attachment:\n        "
     print(attachment)
     
-    if doneWriting() == True:
+    if doneWriting():
+        if username is None or passWord is None:
+            SMTPClient.send_mail(sender, receiver, body)
+        else:
+            SMTPClient.send_secure_mail(username, passWord, sender,receiver,body)
+
         print("It worked!")#send_mail(sender, receiver, body, has_attachment=False) + username + passWord
     else:
         writeMail(username, passWord)
@@ -42,7 +48,7 @@ def writeMail(username, passWord):
 def loginPage():
     # Head of login page
     print("\n")
-    loginMsg = ("Client login\n").center(30)
+    loginMsg = "Client login\n".center(30)
     print(loginMsg)
     
     userName = input("Input username:\n                ")
