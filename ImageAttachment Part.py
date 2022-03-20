@@ -4,7 +4,7 @@ import base64
 # https://stackoverflow.com/questions/38360758/base64-encoded-image-in-email
 # Create image attachment part to the message
 def createImageAttachment(imageName=''):
-    imageBase64 = imageToBase64(imageName)
+    imageBase64 = imageToBase64(imageName) # please convert this with Emil's part
     msg = f'Content-Type: multipart/mixed; boundary="===============0814515963129319972=="\n' \
           f'MIME-Version: 1.0\n' \
           f'\n' \
