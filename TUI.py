@@ -18,28 +18,36 @@ def doneWriting():
 
 
 # Mail client for writing email
-def writeMail(username, passWord):
+def writeMail(username, passWord, attachmentPath=''):
     # Head
     print("\n")
     Msg = "Write mail".center(30) + "\n"
     print(Msg)
-    
+
+    attachmentPath = 'image.png' # Remove later
+
     # Add content
     sender = input("Sender:\n        ")
     receiver = input("\nReceiver:\n        ")
-    topic = input("\nTopic:\n        ")
+    subject = input("\nSubject:\n        ")
     body = input("\nBody:\n        ")
-    
-    attachment = "\nAdd attachment:\n        "
-    print(attachment)
-    
+
+    emailbody = f'FROM:{sender}\n' \
+                f'TO:{receiver}\n' \
+                f'Subject:{subject}\n' \
+
+    if attachmentPath != '':
+        emailbody = emailbody + f'{SMTPClient.createImageAttachment("image.png")}\n'
+
+    emailbody = emailbody + '\n' + body
+
     if doneWriting():
         if username is None or passWord is None:
-            SMTPClient.send_mail(sender, receiver, body)
+            SMTPClient.send_mail(sender, receiver, emailbody)
         else:
-            SMTPClient.send_secure_mail(username, passWord, sender,receiver,body)
+            SMTPClient.send_secure_mail(username, passWord, sender, receiver, emailbody)
 
-        print("It worked!")#send_mail(sender, receiver, body, has_attachment=False) + username + passWord
+        print("It worked!") #send_mail(sender, receiver, body, has_attachment=False) + username + passWord
     else:
         writeMail(username, passWord)
         
@@ -82,4 +90,5 @@ def beginClient():
 
 
 if __name__ == '__main__':
-    beginClient() ## Run
+    #beginClient() ## Run
+    writeMail('test', '123', 'image.png')
